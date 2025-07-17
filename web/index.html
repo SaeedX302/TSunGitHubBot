@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TSunGitHubBot - Ultra Premium GitHub Repository Manager</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .dark-gradient-bg {
+            background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+        }
+        
+        /* Light theme improvements */
+        body:not(.dark) {
+            background: linear-gradient(135deg, #e0e7ff 0%, #f3e8ff 100%);
+        }
+        
+        body:not(.dark) .glass-card {
+            background: rgba(255, 255, 255, 0.98);
+            color: #1f2937;
+        }
+        
+        body:not(.dark) h1, body:not(.dark) h2, body:not(.dark) h3 {
+            color: #1f2937 !important;
+        }
+        
+        body:not(.dark) p {
+            color: #4b5563;
+        }
+        
+        .quote-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .dark .quote-card {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        
+        .dark .glass-card {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.3);
+        }
+        
+        .floating-animation {
+            animation: floating 3s ease-in-out infinite;
+        }
+        
+        @keyframes floating {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.8s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .slide-in {
+            animation: slideIn 0.6s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(-100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        .modal-backdrop {
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+        }
+        
+        .pulse-glow {
+            animation: pulseGlow 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 20px rgba(102, 126, 234, 0.3); }
+            50% { box-shadow: 0 0 40px rgba(102, 126, 234, 0.6); }
+        }
+        
+        .loading-spinner {
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="min-h-screen gradient-bg dark:dark-gradient-bg transition-all duration-500">
+    <!-- Navigation with Quote -->
+    <nav class="fixed top-0 left-0 right-0 z-50 glass-card shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-purple-500 to-blue-600 rounded-lg flex items-center justify-center">
+                        <i data-lucide="github" class="w-6 h-6 text-white"></i>
+                    </div>
+                    <h1 class="text-xl font-bold text-gray-900 dark:text-white">TSunGitHubBot</h1>
+                </div>
+                
+                <!-- Quote Display in Header -->
+                <div class="flex-1 mx-8 max-w-2xl">
+                    <div id="quote-display" class="text-center transition-opacity duration-300">
+                        <p id="quote-text" class="text-sm font-medium text-gray-800 dark:text-gray-200 mb-1 truncate">
+                            Loading beautiful quotes...
+                        </p>
+                        <p id="quote-author" class="text-xs text-gray-600 dark:text-gray-400">
+                            ~ Author
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <!-- Theme Toggle -->
+                    <button id="theme-toggle" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                        <i data-lucide="sun" class="w-5 h-5 text-gray-700 dark:text-gray-300 hidden dark:block"></i>
+                        <i data-lucide="moon" class="w-5 h-5 text-gray-700 dark:text-gray-300 block dark:hidden"></i>
+                    </button>
+                    
+                    <!-- Changelog Button -->
+                    <button id="changelog-btn" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                        <i data-lucide="scroll-text" class="w-5 h-5 text-gray-700 dark:text-gray-300"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="pt-20 pb-16 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+            <!-- Hero Section -->
+            <div class="text-center mb-16 fade-in">
+                <h1 class="text-5xl md:text-7xl font-bold text-white mb-6 floating-animation">
+                    TSunGitHubBot
+                </h1>
+                <p class="text-xl text-white/90 mb-8 max-w-3xl mx-auto">
+                    Ultra-premium GitHub repository manager with AI-powered quote delivery. 
+                    Clone, compress, and deliver repositories with style.
+                </p>
+                <div class="flex justify-center mb-8">
+                    <a href="https://t.me/TSunGitHubBot" target="_blank" class="relative overflow-hidden btn-primary text-white px-12 py-5 rounded-full font-bold text-lg hover:scale-110 transition-all duration-500 pulse-glow shadow-2xl group">
+                        <div class="absolute inset-0 bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 animate-pulse group-hover:animate-none"></div>
+                        <div class="absolute inset-0 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                        <div class="relative flex items-center justify-center">
+                            <i data-lucide="send" class="w-6 h-6 mr-3"></i>
+                            <span class="font-extrabold tracking-wide">🚀 START BOT 🚀</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- GitHub Repository Manager Section -->
+            <div class="glass-card p-8 rounded-2xl shadow-2xl mb-16 fade-in">
+                <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-6 text-center">
+                    <i data-lucide="github" class="w-8 h-8 inline mr-3"></i>
+                    GitHub Repository Manager
+                </h2>
+                <div class="max-w-2xl mx-auto">
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                            GitHub Username or Personal Access Token
+                        </label>
+                        <input 
+                            type="text" 
+                            id="github-input"
+                            placeholder="Enter GitHub username or PAT token"
+                            class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-colors"
+                        >
+                        <p class="text-sm text-gray-500 dark:text-gray-400 mt-2">
+                            Enter a GitHub username for public info or a PAT token for full access including private repos
+                        </p>
+                    </div>
+                    <div class="flex flex-col gap-4 mb-6">
+                        <button 
+                            id="fetch-user-btn"
+                            class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-semibold hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
+                        >
+                            <i data-lucide="user" class="w-5 h-5 inline mr-2"></i>
+                            Get User Info
+                        </button>
+                        <div class="bg-gradient-to-r from-purple-500 to-pink-500 p-4 rounded-lg text-white text-center">
+                            <p class="font-semibold mb-2">🚀 Want to clone repositories?</p>
+                            <p class="text-sm mb-3">Use our Telegram bot for repository cloning and downloading!</p>
+                            <a href="https://t.me/githubuserclonerbot" target="_blank" class="inline-flex items-center bg-white text-purple-600 px-4 py-2 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
+                                <i data-lucide="external-link" class="w-4 h-4 mr-2"></i>
+                                @githubuserclonerbot
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- User Details Section -->
+            <div id="user-details-section" class="glass-card p-8 rounded-2xl shadow-2xl mb-16 hidden">
+                <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-6 text-center">
+                    GitHub Repository User Details
+                </h2>
+                <div id="user-info-content">
+                    <!-- User info will be populated here -->
+                </div>
+            </div>
+
+
+
+            <!-- Features Grid -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+                <div class="glass-card p-8 rounded-2xl shadow-2xl hover:scale-105 transition-all duration-300 fade-in">
+                    <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center mb-4">
+                        <i data-lucide="download" class="w-6 h-6 text-white"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Repository Cloning</h3>
+                    <p class="text-gray-600 dark:text-gray-300">Clone and compress GitHub repositories with lightning speed</p>
+                </div>
+                
+                <div class="glass-card p-8 rounded-2xl shadow-2xl hover:scale-105 transition-all duration-300 fade-in">
+                    <div class="w-12 h-12 bg-gradient-to-br from-green-500 to-teal-600 rounded-lg flex items-center justify-center mb-4">
+                        <i data-lucide="quote" class="w-6 h-6 text-white"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">AI-Powered Quotes</h3>
+                    <p class="text-gray-600 dark:text-gray-300">Beautiful quotes delivered every 20 seconds in Roman Urdu</p>
+                </div>
+                
+                <div class="glass-card p-8 rounded-2xl shadow-2xl hover:scale-105 transition-all duration-300 fade-in">
+                    <div class="w-12 h-12 bg-gradient-to-br from-pink-500 to-rose-600 rounded-lg flex items-center justify-center mb-4">
+                        <i data-lucide="shield-check" class="w-6 h-6 text-white"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Secure & Private</h3>
+                    <p class="text-gray-600 dark:text-gray-300">Support for private repositories with PAT authentication</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Changelog Modal -->
+    <div id="changelog-modal" class="fixed inset-0 z-50 hidden">
+        <div class="modal-backdrop absolute inset-0" id="modal-backdrop"></div>
+        <div class="relative min-h-screen flex items-center justify-center p-4">
+            <div class="glass-card w-full max-w-2xl rounded-2xl shadow-2xl">
+                <div class="flex justify-between items-center p-6 border-b border-gray-200 dark:border-gray-700">
+                    <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Changelog</h2>
+                    <button id="close-modal" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                        <i data-lucide="x" class="w-5 h-5 text-gray-500"></i>
+                    </button>
+                </div>
+                <div class="p-6 max-h-96 overflow-y-auto">
+                    <div class="space-y-6">
+                        <div class="border-l-4 border-purple-500 pl-4">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="font-semibold text-gray-900 dark:text-white">v1.0.0</h3>
+                                <span class="text-sm text-gray-500">2025-07-16</span>
+                            </div>
+                            <ul class="text-sm text-gray-600 dark:text-gray-300 space-y-1">
+                                <li>• Ultra-premium web frontend with glass morphism design</li>
+                                <li>• Real-time quote display every 20 seconds</li>
+                                <li>• Dark/Light theme toggle functionality</li>
+                                <li>• GitHub repository cloning interface</li>
+                                <li>• Responsive design with smooth animations</li>
+                            </ul>
+                            <p class="text-xs text-gray-500 mt-2">By: 〆༯𝙎คAEED✘🫀</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="glass-card mt-16 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-3 gap-8 mb-8">
+                <!-- Social Links -->
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Social Links</h3>
+                    <div class="space-y-2">
+                        <a href="https://github.com/SaeedX302" class="flex items-center space-x-2 text-gray-600 dark:text-gray-300 hover:text-purple-600 transition-colors">
+                            <i data-lucide="github" class="w-4 h-4"></i>
+                            <span>GitHub</span>
+                        </a>
+                        <a href="https://x.com/saeedx300" class="flex items-center space-x-2 text-gray-600 dark:text-gray-300 hover:text-purple-600 transition-colors">
+                            <i data-lucide="twitter" class="w-4 h-4"></i>
+                            <span>Twitter</span>
+                        </a>
+                        <a href="https://www.instagram.com/saeedxdie" class="flex items-center space-x-2 text-gray-600 dark:text-gray-300 hover:text-purple-600 transition-colors">
+                            <i data-lucide="instagram" class="w-4 h-4"></i>
+                            <span>Instagram</span>
+                        </a>
+                        <a href="https://t.me/saeedxdie" class="flex items-center space-x-2 text-gray-600 dark:text-gray-300 hover:text-purple-600 transition-colors">
+                            <i data-lucide="send" class="w-4 h-4"></i>
+                            <span>Telegram</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Other Platforms -->
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Other Platforms</h3>
+                    <div class="space-y-2">
+                        <a href="https://linktr.ee/saeedxdie" class="flex items-center space-x-2 text-gray-600 dark:text-gray-300 hover:text-purple-600 transition-colors">
+                            <i data-lucide="link" class="w-4 h-4"></i>
+                            <span>Linktree Portfolio</span>
+                        </a>
+                        <a href="https://tsungpt2.vercel.app/" class="flex items-center space-x-2 text-gray-600 dark:text-gray-300 hover:text-purple-600 transition-colors">
+                            <i data-lucide="bot" class="w-4 h-4"></i>
+                            <span>TSunGpt - 2</span>
+                        </a>
+                        <a href="https://tsun-yt-downloder.vercel.app/" class="flex items-center space-x-2 text-gray-600 dark:text-gray-300 hover:text-purple-600 transition-colors">
+                            <i data-lucide="download" class="w-4 h-4"></i>
+                            <span>YouTube Downloader</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Tools -->
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Tools</h3>
+                    <div class="space-y-2">
+                        <a href="https://tsuntiktokdownloder.vercel.app/" class="flex items-center space-x-2 text-gray-600 dark:text-gray-300 hover:text-purple-600 transition-colors">
+                            <i data-lucide="download" class="w-4 h-4"></i>
+                            <span>TikTok Downloader</span>
+                        </a>
+                        <a href="https://facebookvideodownloader2.vercel.app/" class="flex items-center space-x-2 text-gray-600 dark:text-gray-300 hover:text-purple-600 transition-colors">
+                            <i data-lucide="download" class="w-4 h-4"></i>
+                            <span>Facebook Downloader</span>
+                        </a>
+                        <a href="https://gravatar.com/cheerfuld27b01881a" class="flex items-center space-x-2 text-gray-600 dark:text-gray-300 hover:text-purple-600 transition-colors">
+                            <i data-lucide="user" class="w-4 h-4"></i>
+                            <span>Gravatar Profile</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-200 dark:border-gray-700 pt-8 text-center">
+                <p class="text-gray-700 dark:text-gray-300 mb-2">
+                    Made With 🫀 By <span class="font-bold text-purple-600 dark:text-purple-400">〆༯𝙎คAEED✘🫀</span>
+                </p>
+                <p class="text-sm text-gray-600 dark:text-gray-500">
+                    All Credits To °【〆༯𝙎ค૯𝙀𝘿】✘,【.ISHU.】
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+        
+        // Theme toggle functionality
+        const themeToggle = document.getElementById('theme-toggle');
+        const body = document.body;
+        
+        // Check for saved theme preference
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            body.classList.toggle('dark', savedTheme === 'dark');
+        }
+        
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark');
+            const isDark = body.classList.contains('dark');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        });
+        
+        // Quote display functionality
+        let currentQuoteIndex = 0;
+        let quotes = [];
+        
+        async function fetchQuote() {
+            try {
+                const response = await fetch('/api/quote');
+                const data = await response.json();
+                return data;
+            } catch (error) {
+                console.error('Error fetching quote:', error);
+                return {
+                    quote: "خود کو اتنا بھی مت بچایا کر بارشیں ہوں تو بھیگ جایا کر",
+                    author: "بشیر بدر"
+                };
+            }
+        }
+        
+        async function updateQuote() {
+            const quote = await fetchQuote();
+            const quoteText = document.getElementById('quote-text');
+            const quoteAuthor = document.getElementById('quote-author');
+            
+            quoteText.textContent = quote.quote;
+            quoteAuthor.textContent = `~ ${quote.author}`;
+            
+            // Add smooth transition effect
+            const quoteDisplay = document.getElementById('quote-display');
+            quoteDisplay.style.opacity = '0.5';
+            setTimeout(() => {
+                quoteDisplay.style.opacity = '1';
+            }, 200);
+        }
+        
+        // Update quote every 20 seconds
+        updateQuote();
+        setInterval(updateQuote, 20000);
+        
+        // GitHub functionality
+        const fetchUserBtn = document.getElementById('fetch-user-btn');
+        const userDetailsSection = document.getElementById('user-details-section');
+        const userInfoContent = document.getElementById('user-info-content');
+        
+        // Fetch user information
+        fetchUserBtn.addEventListener('click', async () => {
+            const input = document.getElementById('github-input').value.trim();
+            
+            if (!input) {
+                alert('Please enter a GitHub username or PAT token');
+                return;
+            }
+            
+            try {
+                let response;
+                // Check if input looks like a PAT token (starts with ghp_ or is long)
+                if (input.startsWith('ghp_') || input.length > 40) {
+                    // Use PAT token for authenticated request
+                    response = await fetch('/api/user-with-token', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ pat: input })
+                    });
+                } else {
+                    // Use username for public request
+                    response = await fetch(`/api/user/${input}`);
+                }
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    displayUserInfo(data);
+                    userDetailsSection.classList.remove('hidden');
+                    userDetailsSection.scrollIntoView({ behavior: 'smooth' });
+                } else {
+                    alert(`Error: ${data.error}`);
+                }
+            } catch (error) {
+                alert(`Error fetching user information: ${error.message}`);
+            }
+        });
+        
+        function displayUserInfo(data) {
+            const user = data.user;
+            const repositories = data.repositories;
+            const hasPrivateAccess = data.private_repos !== undefined;
+            
+            userInfoContent.innerHTML = `
+                <div class="grid md:grid-cols-2 gap-8">
+                    <!-- User Profile -->
+                    <div class="space-y-6">
+                        <div class="flex items-center space-x-4">
+                            <img src="${user.avatar_url}" alt="${user.name || user.login}" class="w-20 h-20 rounded-full">
+                            <div>
+                                <h3 class="text-2xl font-bold text-gray-900 dark:text-white">${user.name || user.login}</h3>
+                                <p class="text-gray-600 dark:text-gray-300">@${user.login}</p>
+                                ${user.bio ? `<p class="text-sm text-gray-500 dark:text-gray-400 mt-2">${user.bio}</p>` : ''}
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="text-center p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                                <div class="text-2xl font-bold text-purple-600">${user.public_repos}</div>
+                                <div class="text-sm text-gray-600 dark:text-gray-400">Public Repos</div>
+                            </div>
+                            <div class="text-center p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                                <div class="text-2xl font-bold text-green-600">${user.followers}</div>
+                                <div class="text-sm text-gray-600 dark:text-gray-400">Followers</div>
+                            </div>
+                            <div class="text-center p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                                <div class="text-2xl font-bold text-blue-600">${user.following}</div>
+                                <div class="text-sm text-gray-600 dark:text-gray-400">Following</div>
+                            </div>
+                            ${hasPrivateAccess ? `
+                            <div class="text-center p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                                <div class="text-2xl font-bold text-red-600">${data.private_repos}</div>
+                                <div class="text-sm text-gray-600 dark:text-gray-400">Private Repos</div>
+                            </div>
+                            ` : `
+                            <div class="text-center p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                                <div class="text-2xl font-bold text-orange-600">${user.public_gists}</div>
+                                <div class="text-sm text-gray-600 dark:text-gray-400">Gists</div>
+                            </div>
+                            `}
+                        </div>
+                        
+                        <div class="space-y-3">
+                            ${user.company ? `<div class="flex items-center space-x-2"><i data-lucide="building" class="w-4 h-4 text-gray-500"></i><span class="text-gray-700 dark:text-gray-300">${user.company}</span></div>` : ''}
+                            ${user.location ? `<div class="flex items-center space-x-2"><i data-lucide="map-pin" class="w-4 h-4 text-gray-500"></i><span class="text-gray-700 dark:text-gray-300">${user.location}</span></div>` : ''}
+                            ${user.blog ? `<div class="flex items-center space-x-2"><i data-lucide="link" class="w-4 h-4 text-gray-500"></i><a href="${user.blog}" class="text-purple-600 hover:text-purple-800" target="_blank">${user.blog}</a></div>` : ''}
+                            ${user.twitter_username ? `<div class="flex items-center space-x-2"><i data-lucide="twitter" class="w-4 h-4 text-gray-500"></i><a href="https://twitter.com/${user.twitter_username}" class="text-purple-600 hover:text-purple-800" target="_blank">@${user.twitter_username}</a></div>` : ''}
+                            <div class="flex items-center space-x-2"><i data-lucide="calendar" class="w-4 h-4 text-gray-500"></i><span class="text-gray-700 dark:text-gray-300">Joined ${new Date(user.created_at).toLocaleDateString()}</span></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Repositories -->
+                    <div>
+                        <h4 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">
+                            Repositories (${repositories.length})
+                        </h4>
+                        <div class="space-y-3 max-h-96 overflow-y-auto">
+                            ${repositories.slice(0, 20).map(repo => `
+                                <div class="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                                    <div class="flex items-start justify-between">
+                                        <div class="flex-1">
+                                            <div class="flex items-center space-x-2">
+                                                <h5 class="font-medium text-gray-900 dark:text-white">${repo.name}</h5>
+                                                ${repo.private ? '<span class="px-2 py-1 text-xs bg-red-100 text-red-800 rounded">Private</span>' : '<span class="px-2 py-1 text-xs bg-green-100 text-green-800 rounded">Public</span>'}
+                                            </div>
+                                            ${repo.description ? `<p class="text-sm text-gray-600 dark:text-gray-400 mt-1">${repo.description}</p>` : ''}
+                                            <div class="flex items-center space-x-4 mt-2 text-sm text-gray-500">
+                                                ${repo.language ? `<span class="flex items-center space-x-1"><span class="w-3 h-3 rounded-full bg-blue-500"></span><span>${repo.language}</span></span>` : ''}
+                                                <span class="flex items-center space-x-1"><i data-lucide="star" class="w-3 h-3"></i><span>${repo.stargazers_count}</span></span>
+                                                <span class="flex items-center space-x-1"><i data-lucide="git-fork" class="w-3 h-3"></i><span>${repo.forks_count}</span></span>
+                                            </div>
+                                        </div>
+                                        <a href="${repo.html_url}" target="_blank" class="text-purple-600 hover:text-purple-800">
+                                            <i data-lucide="external-link" class="w-4 h-4"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            `).join('')}
+                            ${repositories.length > 20 ? `<div class="text-center py-4 text-gray-500">And ${repositories.length - 20} more repositories...</div>` : ''}
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // Re-initialize Lucide icons for the new content
+            lucide.createIcons();
+        }
+
+        
+        // Changelog modal functionality
+        const changelogBtn = document.getElementById('changelog-btn');
+        const changelogModal = document.getElementById('changelog-modal');
+        const modalBackdrop = document.getElementById('modal-backdrop');
+        const closeModal = document.getElementById('close-modal');
+        
+        changelogBtn.addEventListener('click', () => {
+            changelogModal.classList.remove('hidden');
+        });
+        
+        closeModal.addEventListener('click', () => {
+            changelogModal.classList.add('hidden');
+        });
+        
+        modalBackdrop.addEventListener('click', () => {
+            changelogModal.classList.add('hidden');
+        });
+        
+        // Start Bot button functionality
+        document.querySelector('.btn-primary').addEventListener('click', () => {
+            window.open('https://t.me/TSunGitHubBot', '_blank');
+        });
+        
+        // Add smooth scrolling for all anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Add intersection observer for fade-in animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in');
+                }
+            });
+        }, observerOptions);
+        
+        // Observe all cards
+        document.querySelectorAll('.glass-card').forEach(card => {
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>

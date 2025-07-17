@@ -1,0 +1,69 @@
+{
+  "images": [
+    {
+      "id": 1,
+      "url": "https://picsum.photos/400/400?random=1",
+      "category": "anime",
+      "description": "Random anime style image 1"
+    },
+    {
+      "id": 2,
+      "url": "https://picsum.photos/400/400?random=2",
+      "category": "anime",
+      "description": "Random anime style image 2"
+    },
+    {
+      "id": 3,
+      "url": "https://picsum.photos/400/400?random=3",
+      "category": "anime",
+      "description": "Random anime style image 3"
+    },
+    {
+      "id": 4,
+      "url": "https://picsum.photos/400/400?random=4",
+      "category": "anime",
+      "description": "Random anime style image 4"
+    },
+    {
+      "id": 5,
+      "url": "https://picsum.photos/400/400?random=5",
+      "category": "anime",
+      "description": "Random anime style image 5"
+    },
+    {
+      "id": 6,
+      "url": "https://picsum.photos/400/400?random=6",
+      "category": "anime",
+      "description": "Random anime style image 6"
+    },
+    {
+      "id": 7,
+      "url": "https://picsum.photos/400/400?random=7",
+      "category": "anime",
+      "description": "Random anime style image 7"
+    },
+    {
+      "id": 8,
+      "url": "https://picsum.photos/400/400?random=8",
+      "category": "anime",
+      "description": "Random anime style image 8"
+    },
+    {
+      "id": 9,
+      "url": "https://picsum.photos/400/400?random=9",
+      "category": "anime",
+      "description": "Random anime style image 9"
+    },
+    {
+      "id": 10,
+      "url": "https://picsum.photos/400/400?random=10",
+      "category": "anime",
+      "description": "Random anime style image 10"
+    }
+  ],
+  "metadata": {
+    "total_images": 10,
+    "last_updated": "2024-01-01",
+    "source": "placeholder_service"
+  }
+}

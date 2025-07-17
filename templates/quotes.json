@@ -1,0 +1,69 @@
+{
+  "quotes": [
+    {
+      "id": 1,
+      "text": "The best way to predict the future is to create it.",
+      "author": "Peter Drucker",
+      "category": "motivation"
+    },
+    {
+      "id": 2,
+      "text": "Success is not final, failure is not fatal: it is the courage to continue that counts.",
+      "author": "Winston Churchill",
+      "category": "perseverance"
+    },
+    {
+      "id": 3,
+      "text": "The only way to do great work is to love what you do.",
+      "author": "Steve Jobs",
+      "category": "passion"
+    },
+    {
+      "id": 4,
+      "text": "Innovation distinguishes between a leader and a follower.",
+      "author": "Steve Jobs",
+      "category": "innovation"
+    },
+    {
+      "id": 5,
+      "text": "The future belongs to those who believe in the beauty of their dreams.",
+      "author": "Eleanor Roosevelt",
+      "category": "dreams"
+    },
+    {
+      "id": 6,
+      "text": "It is during our darkest moments that we must focus to see the light.",
+      "author": "Aristotle",
+      "category": "hope"
+    },
+    {
+      "id": 7,
+      "text": "Believe you can and you're halfway there.",
+      "author": "Theodore Roosevelt",
+      "category": "confidence"
+    },
+    {
+      "id": 8,
+      "text": "The only impossible journey is the one you never begin.",
+      "author": "Tony Robbins",
+      "category": "beginning"
+    },
+    {
+      "id": 9,
+      "text": "Life is what happens to you while you're busy making other plans.",
+      "author": "John Lennon",
+      "category": "life"
+    },
+    {
+      "id": 10,
+      "text": "Code is like humor. When you have to explain it, it's bad.",
+      "author": "Cory House",
+      "category": "programming"
+    }
+  ],
+  "metadata": {
+    "total_quotes": 10,
+    "categories": ["motivation", "perseverance", "passion", "innovation", "dreams", "hope", "confidence", "beginning", "life", "programming"],
+    "last_updated": "2024-01-01"
+  }
+}

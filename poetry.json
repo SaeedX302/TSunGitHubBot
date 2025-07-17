@@ -1,0 +1,86 @@
+{
+  "poems": [
+    {
+      "text": "Zindagi mein kuch to log mohabbat kar hi lete hain",
+      "author": "Jaun Elia",
+      "category": "love"
+    },
+    {
+      "text": "Humein maloom hai jannat ki haqeeqat lekin",
+      "author": "Jaun Elia",
+      "category": "reality"
+    },
+    {
+      "text": "Koi aur hota to kya hota",
+      "author": "Jaun Elia",
+      "category": "contemplation"
+    },
+    {
+      "text": "Ek umr se hun tanhai mein",
+      "author": "Jaun Elia",
+      "category": "solitude"
+    },
+    {
+      "text": "Woh jo hum mein tum mein qaraar tha",
+      "author": "Jaun Elia",
+      "category": "relationships"
+    },
+    {
+      "text": "Ishq ka matlab hi yeh hai ke aql ka kaam tamaam",
+      "author": "Jaun Elia",
+      "category": "love"
+    },
+    {
+      "text": "Meri aankhon mein nami hai, is tarha lagta hai",
+      "author": "Jaun Elia",
+      "category": "emotion"
+    },
+    {
+      "text": "Dil mein ek lehar si uthi hai",
+      "author": "Jaun Elia",
+      "category": "feelings"
+    },
+    {
+      "text": "Mohabbat mein neend udhar jaati hai",
+      "author": "Jaun Elia",
+      "category": "love"
+    },
+    {
+      "text": "Khuda se dar nahein lagta magar",
+      "author": "Jaun Elia",
+      "category": "spirituality"
+    },
+    {
+      "text": "Raat din barh rahein hain, hum wahein hain",
+      "author": "Jaun Elia",
+      "category": "time"
+    },
+    {
+      "text": "Gham itna hai ke ab rona bhi nahi aata",
+      "author": "Jaun Elia",
+      "category": "sorrow"
+    },
+    {
+      "text": "Yahan kuch log hain jo kuch kaha nahin karte",
+      "author": "Jaun Elia",
+      "category": "silence"
+    },
+    {
+      "text": "Safar khatam, manzil mil gayi",
+      "author": "Jaun Elia",
+      "category": "journey"
+    },
+    {
+      "text": "Mere paas aane ka koi raasta nahi",
+      "author": "Jaun Elia",
+      "category": "distance"
+    }
+  ],
+  "metadata": {
+    "total_poems": 15,
+    "poet": "Jaun Elia",
+    "language": "Urdu",
+    "categories": ["love", "reality", "contemplation", "solitude", "relationships", "emotion", "feelings", "spirituality", "time", "sorrow", "silence", "journey", "distance"],
+    "description": "Collection of beautiful poetry by Jaun Elia for TSunGitHubBot"
+  }
+}
