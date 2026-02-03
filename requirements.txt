@@ -5,3 +5,4 @@ firebase-admin==6.2.0
 flask==3.0.0
 requests==2.31.0
 APScheduler==3.10.4
+protobuf>=6.33.5 # not directly required, pinned by Snyk to avoid a vulnerability
